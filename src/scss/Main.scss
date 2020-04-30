@@ -1,0 +1,317 @@
+/* @import './../../node_modules/bootstrap/dist/css/bootstrap.min.css'; */
+@import 'scss/Colors';
+
+$theme-colors: (
+  "primary": $main-color
+);
+
+@import "./../../node_modules/bootstrap/scss/bootstrap";
+
+@import 'scss/Login';
+
+html, body, body > div, body > div > div.dashboard-root {
+  height: 100%;
+  background-color: $background-main-color;
+}
+
+.text-gray {
+  color: $gray-color;
+}
+
+.margin-top-first-item {
+  margin-top: 50px;
+}
+
+body > div > div {
+  display: flex;
+  flex-direction: column;
+}
+
+#dashboard-container {
+  display: flex;
+  height: 100%;
+}
+
+#dashboard-side-menu {
+  overflow: visible;
+  min-width: 225px;
+}
+
+#dashboard-content {
+  overflow: scroll;
+  flex: 1;
+  padding: 0px;
+  border-left: none;
+}
+
+#dashboard-content-inner {
+  background-color: $background-main-color;
+  padding: 10px;
+  border-left: none;
+}
+
+.top-nav {
+  border: 1px solid black;
+  border-bottom: none;
+  display: flex;
+}
+
+.top-nav .logo {
+  min-width: 225px;
+}
+
+.top-nav a.nav-item {
+  display: inline-block;
+  padding: 13px;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: scroll;
+}
+
+.navbar {
+  min-height: 50px;
+}
+
+.loader-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  background-color: rgba(255,255,255, 0.5);
+  font-size: 64px;
+  color: $main-color-secondary;
+}
+
+.react-datepicker-wrapper {
+  display: block;
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+@keyframes animation-notification-danger {
+    0%   { transform: scale(0.5, 0.5); }
+    20%  { transform: scale(2, 2); }
+    40%  { transform: scale(0.5, 0.5); }
+    60%  { transform: scale(1.5, 1.5); }
+    80%  { transform: scale(0.5, 0.5); }
+    100% { transform: scale(1, 1); }
+}
+
+.animation-notification-danger {
+    animation-name: animation-notification-danger;
+    animation-duration: 1.5s;
+}
+
+@keyframes animation-notification-warning {
+    0%   { transform: rotate(10deg); }
+    20%  { transform: rotate(-10deg); }
+    40%  { transform: rotate(10deg); }
+    60%  { transform: rotate(-10deg); }
+    80%  { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.animation-notification-warning {
+    animation-name: animation-notification-warning;
+    animation-duration: 1.5s;
+}
+
+@keyframes animation-notification-success {
+    0%   { transform: scale(4, 4); }
+    100% { transform: scale(1, 1); }
+}
+
+.animation-notification-success {
+    animation-name: animation-notification-success;
+    animation-duration: 0.5s;
+}
+
+#dashboard-side-menu {
+  background-color: $main-color;
+}
+
+#dashboard-side-menu .list-group > .list-group-item.list-group-item-action {
+  background-color: $main-color;
+  color: $gray-color;
+  border: none;
+}
+
+#dashboard-side-menu .list-group > .list-group-item.list-group-item-action:hover {
+  background-color: $main-color-secondary;
+}
+
+#dashboard-side-menu .list-group > .list-group-item.list-group-item-action.active {
+  background-color: $main-color-secondary;
+  color: white;
+  border-left: 4px solid $extra-color;
+}
+#dashboard-side-menu .list-group > .list-group-item.list-group-item-action:focus {
+  outline: none;
+}
+
+.top-nav {
+  background-color: $background-main-color;
+  border: none;
+}
+
+.top-nav .nav-item {
+  color: #999c9e;
+}
+
+.side-menu-logo-container {
+  background-color: $main-color-darkest;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active-project-widget {
+  background-color: #ffffff;
+  color: inherit;
+  padding: 15px 20px 20px 20px;
+  border-color: #e7eaec;
+  border-image: none;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.active-project-widget > h6 {
+  color: #676a6c;
+}
+
+.btn {
+  border-radius: 0;
+}
+
+.submenu-container {
+  position: relative;
+}
+
+.submenu:hover, .submenu-container:hover .submenu {
+  display: block;
+}
+
+.submenu div, .submenu button {
+  background-color: $main-color;
+  border-radius: 0 !important;
+}
+
+.submenu {
+  width: 225px;
+  display: none;
+  position: absolute;
+  right: -225px;
+  top: 0;
+  z-index: 20;
+}
+
+.border-radius-none {
+  border-radius: 0;
+}
+
+.bg-bright {
+  background-color: $extra-color;
+}
+
+.bg-main {
+  background-color: $main-color-secondary;
+}
+
+.bg-main-blur {
+  background-color: $main-color-secondary;
+}
+
+.table-danger-variation {
+  background-color: #debfc3;
+}
+
+.table-success-variation {
+  background-color: #c4d4c8;
+}
+
+.side-menu-options-switch .nav-tabs {
+  border-bottom: 4px solid $extra-color;
+}
+
+.side-menu-options-switch .nav-tabs .nav-item {
+  margin-bottom: -4px;
+}
+
+.side-menu-options-switch .nav-link:hover {
+  background-color: $main-color-secondary;
+  color: white;
+  border: none;
+  border-bottom: 4px solid $extra-color;
+}
+
+.side-menu-options-switch .nav-link {
+  background-color: $main-color;
+  color: $gray-color;
+  border: none;
+  border-bottom: 4px solid $extra-color;
+}
+
+.side-menu-options-switch .nav-link.active {
+  background-color: $main-color-secondary;
+  color: white;
+  border-left: 4px solid $extra-color;
+  border-top: 4px solid $extra-color;
+  border-right: 4px solid $extra-color;
+  border-bottom: none;
+}
+
+.list-group-item:last-child, .list-group-item:first-child {
+  border-radius: 0;
+}
+
+.ellipsis-small {
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pagination {
+  border-radius: 0;
+}
+
+.pagination .page-item.active > .page-link {
+  background-color: $extra-color;
+}
+
+.pagination .page-link {
+  color: $main-color;
+  border-radius: 0 !important;
+}
+
+.form-control {
+  border-radius: 0;
+}
+
+.modal-content {
+  border-radius: 0;
+}
+
+.dashboard-side-menu-item-sub-section-title {
+  color: $gray-color;
+  background-color: $main-color-darkest;
+  font-weight: 100;
+  padding-top: 1rem;
+  padding-left: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dashboard-side-menu-item-sub-section-title .text-holder {
+  border-bottom: solid $gray-color 0.05rem;
+}
