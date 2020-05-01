@@ -315,3 +315,17 @@ body > div > div {
 .dashboard-side-menu-item-sub-section-title .text-holder {
   border-bottom: solid $gray-color 0.05rem;
 }
+
+.ellipsis-100 {
+  text-overflow: ellipsis;
+  white-space: pre;
+  overflow: hidden;
+  max-width: 256px;
+}
+
+.image-contain-sm {
+  object-fit: contain;
+  position: relative;
+  width: 70px;
+  height: 50px;
+}

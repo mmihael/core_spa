@@ -146,9 +146,9 @@ class ApiTable extends Component {
         <form onSubmit={this.handleSearch}>
           <div className='row' style={{justifyContent: 'flex-end'}}>
             {this.props.searchOptions.map(this.renderSearchOption)}
-            <div className='form-group col-sm-2' style={{ paddingBottom: '.25rem', display: 'flex', alignItems: 'flex-end'}}>
-              <button title={translate('Reset filters')} type='button' onClick={this.reset} className='btn btn-outline-dark'><FontAwesomeIcon icon={faBan} /></button>&nbsp;
-              <button title={translate('Search')} type='submit' className='btn btn-outline-info'><FontAwesomeIcon icon={faSearch} /></button>
+            <div className='form-group col-sm-2' style={{display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end'}}>
+              <button title={translate('Reset filters')} type='button' onClick={this.reset} className='btn btn-outline-dark mb-1 mr-2'><FontAwesomeIcon icon={faBan} /></button>
+              <button title={translate('Search')} type='submit' className='btn btn-outline-info mb-1'><FontAwesomeIcon icon={faSearch} /></button>
             </div>
           </div>
         </form>
@@ -158,7 +158,7 @@ class ApiTable extends Component {
         <thead>
           <tr>
             {this.props.columnNames.map(name => (<th key={name}>{name}</th>))}
-            {this.props.enableOptionsCell === true ? <th></th> : null}
+            {this.props.enableOptionsCell === true ? <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> : null}
           </tr>
         </thead>
         <tbody>
@@ -174,7 +174,7 @@ class ApiTable extends Component {
                         {this.renderBooleanValue(value)}
                       </td>
                     }
-                    return <td key={key}>{item[extractor]}</td>
+                    return <td className='ellipsis-100' key={key}>{item[extractor]}</td>
                   } else {
                     let value = extractor(item)
                     return <td key={key}>{typeof value === 'boolean' ? (this.renderBooleanValue(value)) : value}</td>
@@ -182,18 +182,21 @@ class ApiTable extends Component {
                 })}
                 {this.props.enableOptionsCell === true ? (
                   <td className='text-left'>
-                    {this.props.enableEditDelete === true ?
-                      <>
-                        <Link title={translate('Edit')} to={this.props.formUri + '?entityId=' + item.id} className='btn btn-info btn-sm'><FontAwesomeIcon icon={faEdit}/></Link>&nbsp;
-                        <button
+                    <div style={{whiteSpace: 'pre'}}>
+                      {this.props.enableEdit === true && (this.props.showEditCondition == null || this.props.showEditCondition(item)) ? (
+                          <><Link title={translate('Edit')} to={this.props.formUri + '?entityId=' + item.id} className='btn btn-info btn-sm'><FontAwesomeIcon icon={faEdit}/></Link>&nbsp;</>
+                        ) : null}
+                      {this.props.enableDelete === true && (this.props.showDeleteCondition == null || this.props.showDeleteCondition(item)) ? (
+                        <><button
                           onClick={e => {
                             this.setState({ idForDelete: item.id }, () => this.__deleteModal.toggle())
                           }}
                           title={translate('Delete')}
                           className='btn btn-danger btn-sm'
-                        ><FontAwesomeIcon icon={faTrashAlt}/></button>
-                      </> : null}
-                    {this.props.additionalOptions ? this.props.additionalOptions(item) : null}
+                        ><FontAwesomeIcon icon={faTrashAlt}/></button>&nbsp;</>
+                        ) : null}
+                      {this.props.additionalOptions ? this.props.additionalOptions(item) : null}
+                    </div>
                   </td>
                 ) : null}
               </tr>
@@ -202,7 +205,13 @@ class ApiTable extends Component {
         </tbody>
         <tfoot></tfoot>
       </table>
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      <div>
+        {page ? <small className='text-muted'>{translate('Total items')}: {page.totalElements}</small> : null}
+      </div>
+      <div>
+        {page ? <small className='text-muted'>{translate('Page')}: {page.number} {translate('of')} {page.totalPages}</small> : null}
+      </div>
       <nav>
         <ul className='pagination pagination-sm mb-0'>
           <li className={'page-item ' + (page == null || page.first ? 'disabled' : '')}>
@@ -222,7 +231,7 @@ class ApiTable extends Component {
       </nav>
       </div>
       </div>
-      {this.props.enableOptionsCell === true && this.props.enableEditDelete === true ? (
+      {this.props.enableOptionsCell === true && this.props.enableDelete === true ? (
         <Modal
           ref={ref => this.__deleteModal = ref}
           title={translate('Confirmation required')}
@@ -236,6 +245,7 @@ class ApiTable extends Component {
                   .then(res => {
                     this.__deleteModal.toggle()
                     this.fetch(this.state.page.number)
+                    NotificationManager.success(translate('Entity deleted'));
                   })
                   .catch(err => { console.log(err); NotificationManager.danger(translate('Failed to delete entity')); })
                   .then(() => { this.setState(state => ({ requestCount: state.requestCount - 1 })); });

@@ -25,7 +25,8 @@ class OrgUserTable extends Component {
           entityUri={ApiUris.ORG_USERS_URI}
           formUri={orgUsersFormUri}
           enableOptionsCell={true}
-          enableEditDelete={true}
+          enableEdit={true}
+          enableDelete={true}
           columnNames={[
             translate('ID'),
             translate('Username'),

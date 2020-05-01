@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 import UserTable from 'view/users/UserTable';
 import UserForm from 'view/users/UserForm';
+import FileTable from 'view/files/FileTable';
+import FileForm from 'view/files/FileForm';
 import OrganizationTable from 'view/organization/OrganizationTable';
 import OrganizationForm from 'view/organization/OrganizationForm';
 import OrganizationUsers from 'view/organization/OrganizationUsers';
 import OrgUserTable from 'view/users/OrgUserTable';
 import OrgUserForm from 'view/users/OrgUserForm';
+import OrgFileTable from 'view/files/OrgFileTable';
+import OrgFileForm from 'view/files/OrgFileForm';
 import Index from 'view/Index';
 import Routes from 'constants/Routes';
 import MainRouter from 'util/MainRouter';
@@ -24,7 +28,8 @@ import {
   faUsers,
   faTachometerAlt,
   faSignOutAlt,
-  faBuilding
+  faBuilding,
+  faFile
 } from '@fortawesome/free-solid-svg-icons';
 const translate = Translator.translate;
 
@@ -66,6 +71,23 @@ class Dashboard extends Component {
       .catch(err => { NotificationManager.danger(translate('Failed to get user settings')) })
   }
 
+  renderOrganizationMemberMenuItems = (currentUri) => {
+    let orgPlaceHolder = ':organizationId'
+    let activeOrganizationId = this.props.config.activeOrganization
+    let usersUris = [
+      Routes.DASHBOARD_ORG_FILES_URI,
+      Routes.DASHBOARD_ORG_FILES_FORM_URI
+    ].map(r => r.replace(orgPlaceHolder, activeOrganizationId))
+    return (
+      <React.Fragment key={'OrganizationMemberMenuItems'}>
+        <Link
+          className={'list-group-item list-group-item-action' + (usersUris.indexOf(currentUri) >= 0 ? ' active' : '')}
+          to={Routes.DASHBOARD_ORG_FILES_URI.replace(orgPlaceHolder, activeOrganizationId)}
+        ><FontAwesomeIcon icon={faFile}/> {translate('Files')}</Link>
+      </React.Fragment>
+    )
+  }
+
   renderOrganizationOwnerMenuItems = (currentUri) => {
     let orgPlaceHolder = ':organizationId'
     let activeOrganizationId = this.props.config.activeOrganization
@@ -88,6 +110,10 @@ class Dashboard extends Component {
     return (
       <React.Fragment key='SuperAdminMenuItems'>
         <Link
+          className={'list-group-item list-group-item-action' + (currentUri.startsWith(Routes.DASHBOARD_FILES_URI) === true ? ' active' : '')}
+          to={Routes.DASHBOARD_FILES_URI}
+        ><FontAwesomeIcon icon={faFile}/> {translate('Files')}</Link>
+        <Link
           className={'list-group-item list-group-item-action' + (usersUris.indexOf(currentUri) >= 0 ? ' active' : '')}
           to={Routes.DASHBOARD_USERS_URI}
         ><FontAwesomeIcon icon={faUsers}/> {translate('Users')}</Link>
@@ -103,7 +129,10 @@ class Dashboard extends Component {
     const currentUri = this.props.location.pathname;
     let menuItems = []
     if (this.props.config) {
-      if (this.props.config.activeOrganizationOwner === true) {
+      if (this.props.config.activeOrganizationMember === true) {
+        menuItems.push(this.renderOrganizationMemberMenuItems(currentUri));
+      } else if (this.props.config.activeOrganizationOwner === true) {
+        menuItems.push(this.renderOrganizationMemberMenuItems(currentUri));
         menuItems.push(this.renderOrganizationOwnerMenuItems(currentUri));
       }
       if (this.props.config.isSuperAdmin === true) {
@@ -175,8 +204,12 @@ class Dashboard extends Component {
               <Route exact path={Routes.DASHBOARD_ORGANIZATIONS_URI} component={OrganizationTable} />
               <Route exact path={Routes.DASHBOARD_ORGANIZATIONS_FORM_URI} component={OrganizationForm} />
               <Route exact path={Routes.DASHBOARD_ORGANIZATIONS_USERS_URI} component={OrganizationUsers} />
+              <Route exact path={Routes.DASHBOARD_FILES_URI} component={FileTable} />
+              <Route exact path={Routes.DASHBOARD_FILES_FORM_URI} component={FileForm} />
               <Route exact path={Routes.DASHBOARD_ORG_USERS_URI} component={OrgUserTable} />
               <Route exact path={Routes.DASHBOARD_ORG_USERS_FORM_URI} component={OrgUserForm} />
+              <Route exact path={Routes.DASHBOARD_ORG_FILES_URI} component={OrgFileTable} />
+              <Route exact path={Routes.DASHBOARD_ORG_FILES_FORM_URI} component={OrgFileForm} />
             </Switch>
             </div>
           </div>

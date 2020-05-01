@@ -3,6 +3,7 @@ const API = '/api';
 const APP_CONFIGURATION = '/app-configuration';
 const USERS = '/user';
 const ROLE = '/role';
+const FILE = '/file';
 const ORGANIZATION = '/organization';
 
 const APP_CONFIGURATION_URI = API + APP_CONFIGURATION;
@@ -12,9 +13,14 @@ const ROLE_PAGE_URI = API + ROLE;
 const ORGANIZATION_URI = API + ORGANIZATION;
 const ORGANIZATION_PAGE_URI = ORGANIZATION_URI;
 const ORGANIZATION_USER_ROLE_URI = ORGANIZATION_URI + '/{organizationId}/assign-user';
+const FILES_URI = API + FILE;
+const FILES_PAGE_URI = FILES_URI;
 
 const ORG_USERS_URI = API + ORGANIZATION + '/{organizationId}' + USERS;
 const ORG_USERS_PAGE_URI = ORG_USERS_URI;
+
+const ORG_FILES_URI = API + ORGANIZATION + '/{organizationId}' + FILE;
+const ORG_FILES_PAGE_URI = ORG_FILES_URI;
 
 export default {
   APP_CONFIGURATION_URI,
@@ -24,6 +30,10 @@ export default {
   ORGANIZATION_URI,
   ORGANIZATION_PAGE_URI,
   ORGANIZATION_USER_ROLE_URI,
+  FILES_URI,
+  FILES_PAGE_URI,
   ORG_USERS_URI,
   ORG_USERS_PAGE_URI,
+  ORG_FILES_URI,
+  ORG_FILES_PAGE_URI
 };

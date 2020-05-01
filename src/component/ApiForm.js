@@ -56,9 +56,14 @@ class ApiForm extends Component {
   setupForm = () => {
     let stateKeys = []
     let promises = []
-    this.getActiveElements().filter(element => element.loadOptions != null).forEach(element => {
-      promises.push(element.loadOptions)
-      stateKeys.push('__options:' + element.inputId)
+    this.getActiveElements().filter(element => element.type === 'select').forEach(element => {
+      let optionsKey = '__options:' + element.inputId
+      if (element.loadOptions) {
+        promises.push(element.loadOptions)
+        stateKeys.push(optionsKey)
+      } else {
+        this.setState({ [optionsKey]: element.options })
+      }
     });
     if (this.state.editedId) {
       promises.push(this.getEditedEntityPromise(this.state.editedId));
@@ -138,23 +143,41 @@ class ApiForm extends Component {
   }
 
   buildRequestObject = () => {
-    let requestEntity = {};
+    let isFormData = this.props.formData === true
+    let requestEntity = isFormData ? new FormData() : {};
     this.getActiveElements().forEach(element => {
       let value = null;
-      if (element.type === 'input') {
+      if (element.type === 'input' || element.type === 'file') {
         value = this.state.entity[element.propSelector]
       } else if (element.type === 'checkbox') {
         value = this.state.entity[element.propSelector] === true
       } else if (element.type === 'select') {
         if (element.isMulti) {
-          value = this.state.entity[element.propSelector] ? this.state.entity[element.propSelector].map(el => parseInt(el.value)) : null;
+          value = this.state.entity[element.propSelector] ? this.state.entity[element.propSelector].map(el => element.apiType === 'string' ? el.value : parseInt(el.value)) : null;
         } else {
-          value = this.state.entity[element.propSelector] ? parseInt(this.state.entity[element.propSelector].value) : null;
+          value = this.state.entity[element.propSelector] ? element.apiType === 'string' ? this.state.entity[element.propSelector].value : parseInt(this.state.entity[element.propSelector].value) : null;
         }
       }
-      requestEntity[element.propSelector] = value
+      if (isFormData) {
+        requestEntity.set(element.propSelector, value)
+      } else {
+        requestEntity[element.propSelector] = value
+      }
     })
     return requestEntity
+  }
+
+  renderFile = (element, index) => {
+    return <Input
+      key={index}
+      label={element.label}
+      inputId={element.inputId}
+      inputType={'file'}
+      onChange={event => {
+        let value = event.target.files[0]
+        this.setState(state => ({ entity: Object.assign({}, this.state.entity, { [element.propSelector]: value }) }));
+      }}
+    />
   }
 
   renderInput = (element, index) => {
@@ -189,7 +212,7 @@ class ApiForm extends Component {
       inputId={element.inputId}
       label={element.label}
       isMulti={element.isMulti}
-      options={element.loadOptions ? this.state['__options:' + element.inputId] : element.options}
+      options={this.state['__options:' + element.inputId]}
       value={this.state.entity[element.propSelector]}
       onChange={data => {
         this.setState(state => ({ entity: Object.assign({}, state.entity, { [element.propSelector]: data }) }));
@@ -204,6 +227,8 @@ class ApiForm extends Component {
       return this.renderCheckbox(element, index)
     } else if (element.type === 'select') {
       return this.renderSelect(element, index)
+    } else if (element.type === 'file') {
+      return this.renderFile(element, index)
     }
   }
 

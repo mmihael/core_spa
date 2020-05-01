@@ -34,9 +34,10 @@ class OrganizationTable extends Component {
           entityUri={ApiUris.ORGANIZATION_URI}
           formUri={Routes.DASHBOARD_ORGANIZATIONS_FORM_URI}
           enableOptionsCell={true}
-          enableEditDelete={true}
+          enableEdit={true}
+          enableDelete={true}
           additionalOptions={item => { return (
-            <>&nbsp;
+            <>
               <Link
                 title={translate('Manage users')}
                 to={Routes.DASHBOARD_ORGANIZATIONS_USERS_URI.replace(':id', item.id)}

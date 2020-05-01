@@ -23,7 +23,8 @@ class UserTable extends Component {
           entityUri={ApiUris.USERS_URI}
           formUri={Routes.DASHBOARD_USERS_FORM_URI}
           enableOptionsCell={true}
-          enableEditDelete={true}
+          enableEdit={true}
+          enableDelete={true}
           columnNames={[
             translate('ID'),
             translate('Username'),

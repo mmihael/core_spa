@@ -9,7 +9,7 @@ class Input extends Component {
           type={this.props.inputType}
           id={this.props.inputId}
           onChange={this.props.onChange}
-          className={'form-control ' + (this.props.additionalClasses ? this.props.additionalClasses : '')}
+          className={(this.props.inputType !== 'file' ? 'form-control ' : 'form-control-file ') + (this.props.additionalClasses ? this.props.additionalClasses : '')}
           placeholder={this.props.inputPlaceholder}
           value={this.props.value}
         />
