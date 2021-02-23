@@ -4,6 +4,7 @@ const APP_CONFIGURATION = '/app-configuration';
 const USERS = '/user';
 const ROLE = '/role';
 const FILE = '/file';
+const CHAT = '/chat';
 const ORGANIZATION = '/organization';
 
 const APP_CONFIGURATION_URI = API + APP_CONFIGURATION;
@@ -22,6 +23,11 @@ const ORG_USERS_PAGE_URI = ORG_USERS_URI;
 const ORG_FILES_URI = API + ORGANIZATION + '/{organizationId}' + FILE;
 const ORG_FILES_PAGE_URI = ORG_FILES_URI;
 
+const ORG_CHATS_URI = API + ORGANIZATION + '/{organizationId}' + CHAT;
+const ORG_CHATS_PAGE_URI = ORG_CHATS_URI;
+const ORG_CHATS_ID_URI = ORG_CHATS_URI + '/{chatId}';
+const ORG_CHATS_ID_MESSAGE_URI = ORG_CHATS_ID_URI + '/chat-message';
+
 export default {
   APP_CONFIGURATION_URI,
   USERS_URI,
@@ -35,5 +41,9 @@ export default {
   ORG_USERS_URI,
   ORG_USERS_PAGE_URI,
   ORG_FILES_URI,
-  ORG_FILES_PAGE_URI
+  ORG_FILES_PAGE_URI,
+  ORG_CHATS_URI,
+  ORG_CHATS_PAGE_URI,
+  ORG_CHATS_ID_URI,
+  ORG_CHATS_ID_MESSAGE_URI
 };

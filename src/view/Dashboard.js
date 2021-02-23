@@ -11,6 +11,10 @@ import OrgUserTable from 'view/users/OrgUserTable';
 import OrgUserForm from 'view/users/OrgUserForm';
 import OrgFileTable from 'view/files/OrgFileTable';
 import OrgFileForm from 'view/files/OrgFileForm';
+import OrgChatTable from 'view/chats/OrgChatTable';
+import OrgChatForm from 'view/chats/OrgChatForm';
+import OrgChatView from 'view/chats/OrgChatView';
+import OrgChats from 'view/chats/OrgChats';
 import Index from 'view/Index';
 import Routes from 'constants/Routes';
 import MainRouter from 'util/MainRouter';
@@ -23,13 +27,15 @@ import ApiClient from 'client/ApiClient';
 import { setConfig } from 'actions/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from "react-redux";
+import WsSocket from 'util/WsSocket';
 import {
   faUser,
   faUsers,
   faTachometerAlt,
   faSignOutAlt,
   faBuilding,
-  faFile
+  faFile,
+  faComments
 } from '@fortawesome/free-solid-svg-icons';
 const translate = Translator.translate;
 
@@ -63,6 +69,11 @@ class Dashboard extends Component {
   }
 
   componentDidMount = () => {
+    this.getUserConfig();
+    WsSocket.setup();
+  }
+
+  getUserConfig = () => {
     ApiClient
       .getAppConfig()
       .then(res => {
@@ -74,15 +85,19 @@ class Dashboard extends Component {
   renderOrganizationMemberMenuItems = (currentUri) => {
     let orgPlaceHolder = ':organizationId'
     let activeOrganizationId = this.props.config.activeOrganization
-    let usersUris = [
+    let fileUris = [
       Routes.DASHBOARD_ORG_FILES_URI,
       Routes.DASHBOARD_ORG_FILES_FORM_URI
     ].map(r => r.replace(orgPlaceHolder, activeOrganizationId))
     return (
       <React.Fragment key={'OrganizationMemberMenuItems'}>
         <Link
-          className={'list-group-item list-group-item-action' + (usersUris.indexOf(currentUri) >= 0 ? ' active' : '')}
-          to={Routes.DASHBOARD_ORG_FILES_URI.replace(orgPlaceHolder, activeOrganizationId)}
+          className={'list-group-item list-group-item-action' + (currentUri.startsWith(Routes.DASHBOARD_ORG_CHATS_URI.replace(orgPlaceHolder, activeOrganizationId)) ? ' active' : '')}
+          to={Routes.DASHBOARD_ORG_CHATS_URI.replace(orgPlaceHolder, activeOrganizationId)}
+        ><FontAwesomeIcon icon={faComments}/> {translate('Chats')}</Link>
+        <Link
+          className={'list-group-item list-group-item-action' + (fileUris.indexOf(currentUri) >= 0 ? ' active' : '')}
+          to={fileUris[0]}
         ><FontAwesomeIcon icon={faFile}/> {translate('Files')}</Link>
       </React.Fragment>
     )
@@ -210,6 +225,10 @@ class Dashboard extends Component {
               <Route exact path={Routes.DASHBOARD_ORG_USERS_FORM_URI} component={OrgUserForm} />
               <Route exact path={Routes.DASHBOARD_ORG_FILES_URI} component={OrgFileTable} />
               <Route exact path={Routes.DASHBOARD_ORG_FILES_FORM_URI} component={OrgFileForm} />
+              <Route exact path={Routes.DASHBOARD_ORG_CHATS_URI} component={OrgChats} />
+              <Route exact path={Routes.DASHBOARD_ORG_CHATS_URI} component={OrgChatTable} />
+              <Route exact path={Routes.DASHBOARD_ORG_CHATS_FORM_URI} component={OrgChatForm} />
+              <Route exact path={Routes.DASHBOARD_ORG_CHATS_VIEW_URI} component={OrgChatView} />
             </Switch>
             </div>
           </div>

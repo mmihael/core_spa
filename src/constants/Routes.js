@@ -12,6 +12,9 @@ const DASHBOARD_ORG_USERS_URI = '/dashboard/organization/:organizationId/users';
 const DASHBOARD_ORG_USERS_FORM_URI = '/dashboard/organization/:organizationId/users/form';
 const DASHBOARD_ORG_FILES_URI = '/dashboard/organization/:organizationId/files';
 const DASHBOARD_ORG_FILES_FORM_URI = '/dashboard/organization/:organizationId/files/form';
+const DASHBOARD_ORG_CHATS_URI = '/dashboard/organization/:organizationId/chats';
+const DASHBOARD_ORG_CHATS_FORM_URI = '/dashboard/organization/:organizationId/chats/form';
+const DASHBOARD_ORG_CHATS_VIEW_URI = '/dashboard/organization/:organizationId/chats/:chatId';
 
 export default {
   LOGIN_URI,
@@ -27,5 +30,8 @@ export default {
   DASHBOARD_ORG_USERS_URI,
   DASHBOARD_ORG_USERS_FORM_URI,
   DASHBOARD_ORG_FILES_URI,
-  DASHBOARD_ORG_FILES_FORM_URI
+  DASHBOARD_ORG_FILES_FORM_URI,
+  DASHBOARD_ORG_CHATS_URI,
+  DASHBOARD_ORG_CHATS_FORM_URI,
+  DASHBOARD_ORG_CHATS_VIEW_URI
 };

@@ -35,6 +35,7 @@ body > div > div {
 #dashboard-side-menu {
   overflow: visible;
   min-width: 225px;
+  z-index: 3;
 }
 
 #dashboard-content {
@@ -42,12 +43,15 @@ body > div > div {
   flex: 1;
   padding: 0px;
   border-left: none;
+  display: flex;
+  flex-direction: column;
 }
 
 #dashboard-content-inner {
   background-color: $background-main-color;
   padding: 10px;
   border-left: none;
+  flex: 1;
 }
 
 .top-nav {
@@ -328,4 +332,8 @@ body > div > div {
   position: relative;
   width: 70px;
   height: 50px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }

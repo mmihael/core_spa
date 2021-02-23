@@ -6,7 +6,7 @@ import ApiForm from 'component/ApiForm';
 import Translator from 'multilanguage/Translator';
 const translate = Translator.translate;
 
-class UserForm extends Component {
+class OrgUserForm extends Component {
 
   render() {
     const redirectRoute = Routes.DASHBOARD_ORG_USERS_URI.replace(':organizationId', this.props.match.params.organizationId);
@@ -54,4 +54,4 @@ class UserForm extends Component {
 
 }
 
-export default UserForm;
+export default OrgUserForm;

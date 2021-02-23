@@ -164,6 +164,11 @@ class ApiForm extends Component {
         requestEntity[element.propSelector] = value
       }
     })
+
+    if (this.props.modifyRequestAfterBuilt) {
+      this.props.modifyRequestAfterBuilt(requestEntity);
+    }
+
     return requestEntity
   }
 
